@@ -12,8 +12,7 @@ ENV APP_VERSION=${APP_VERSION:-3.8.3}
 
 ARG MOODLE_V=38
 
-RUN git clone -b MOODLE_${MOODLE_V}_STABLE git://git.moodle.org/moodle.git moodle-git
-
+# RUN git clone -b MOODLE_${MOODLE_V}_STABLE git://git.moodle.org/moodle.git moodle-git
 RUN wget https://download.moodle.org/download.php/direct/stable${MOODLE_V}/moodle-latest-${MOODLE_V}.tgz
 #ADD moodle-latest-${MOODLE_V}.tgz /.
 RUN tar -xvzf /moodle-latest-${MOODLE_V}.tgz \
@@ -30,6 +29,15 @@ RUN chmod -v +x /entrypoint.sh
 # Php.ini ajustado
 #COPY php.ini /etc/php.ini
 
+# Pacotes extenção php
+ARG PHP_V=74
+RUN yum --enablerepo=remi-php${PHP_V} -y install \
+                   php-opcache php-cli php-common php-intl \
+                   php-mbstring php-mcrypt php-soap php-xml php-xmlrpc php-gd php-json \
+                   php-imap php-snmp php-ldap \
+                   php-pear php-mysql php-mssql php-pgsql php7-pdo \
+                   php-zip
+
 RUN mkdir /var/www/moodledata && chown apache:apache /var/www/moodledata
 
 VOLUME [ "/var/www/moodledata" ; "/var/www/html" ]
@@ -39,7 +47,4 @@ EXPOSE 80
 ENTRYPOINT ["/entrypoint.sh"]
 
 CMD [ "bash -c" , "/run-httpd.sh" ]
-
-
-
 
