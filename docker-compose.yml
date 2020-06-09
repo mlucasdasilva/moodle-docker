@@ -18,7 +18,9 @@ services:
     restart: always
     environment:
       # usuario: postgres/password
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
+      POSTGRES_DB: moodle
     volumes:
        - postgdb:/var/lib/postgresql/data
     ports:
