@@ -1,0 +1,67 @@
+version: '3.4'
+
+services:
+
+ moodle:
+  image: mlucasdasilva/moodle
+  build: ./
+  ports:
+     - "80:80"
+     - "443:443"
+  volumes:
+     - data:/var/www/moodledata
+     - app-html:/var/www/html
+     - logs-apache:/var/log/httpd
+
+ pgsql:
+    image: postgres
+    restart: always
+    environment:
+      # usuario: postgres/password
+      POSTGRES_PASSWORD: password
+    volumes:
+       - postgdb:/var/lib/postgresql/data
+    ports:
+       - 5432:5432
+
+ pgadmin4:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+      PGADMIN_DEFAULT_EMAIL: user@domain.com
+      PGADMIN_DEFAULT_PASSWORD: password
+    ports:
+      - 10080:80
+
+ mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: Admin@1234
+      MYSQL_DATABASE: moodle
+      MYSQL_USER: moodle
+      MYSQL_PASSWORD: moodle
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    logging:
+      options:
+        max-size: 50m
+    volumes:
+      - data-mysql:/var/lib/mysql
+
+ adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8080
+
+volumes:
+  data:
+  app-html:
+  logs-apache:
+  postgdb:
+  data-mysql:
+
+
+
