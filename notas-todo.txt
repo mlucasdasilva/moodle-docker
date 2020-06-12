@@ -1,0 +1,39 @@
+
+
+# Alteracoes no php php.ini
+
+# Para upload de backups:
+upload_max_filesize = 2G
+post_max_size = 8G
+
+
+
+
+#
+# Automatizacao da instalcacao
+#
+# https://docs.moodle.org/38/en/Administration_via_command_line
+
+cd cd /var/www/html/moodle/
+
+/usr/bin/php admin/cli/install.php --help
+sudo -u apache /usr/bin/php admin/cli/install.php --help
+
+vi local/readme.txt
+
+
+# https://moodle.org/mod/forum/discuss.php?d=328248
+What you are aiming for is...
+
+$CFG->theme = 'yourtheme';
+...in the config. To build that into the install without changing core code you need to set up a new file called local/defaults.php
+
+That should contain..
+
+<?php
+$defaults['moodle']['theme'] = 'yourtheme';
+(see local/readme.txt)
+
+All this without actually trying it of course piscando
+
+
