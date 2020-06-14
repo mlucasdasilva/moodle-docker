@@ -1,5 +1,11 @@
-# moodle-docker
-moodle-docker
+# Projeto moodle em conteiner docker
+Projeto: moodle-docker
+
+Baixe o repositorio:
+
+
+    git clone https://github.com/mlucasdasilva/moodle-docker.git moodle
+    cd moodle
 
 
 Para iniciar o banco de dados utilize um dos comandos:
