@@ -2,7 +2,7 @@ FROM mlucasdasilva/centos7-php74
 
 RUN ln -snf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 
-RUN yum -y update && yum clean all
+# RUN yum -y update && yum clean all
 RUN yum -y install unzip
 
 RUN yum -y install wget git
@@ -22,10 +22,6 @@ RUN tar -xvzf /moodle-latest-${MOODLE_V}.tgz \
 #chmod -R 0755 /path/to/moodle
 RUN chown apache:apache -R /moodle 
 
-# Simple install and startup script
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod -v +x /entrypoint.sh
-
 # Php.ini ajustado
 #COPY php.ini /etc/php.ini
 
@@ -37,6 +33,10 @@ RUN yum --enablerepo=remi-php${PHP_V} -y install \
                    php-imap php-snmp php-ldap \
                    php-pear php-mysql php-mssql php-pgsql php7-pdo \
                    php-zip
+
+# Simple install and startup script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod -v +x /entrypoint.sh
 
 RUN mkdir /var/www/moodledata && chown apache:apache /var/www/moodledata
 
