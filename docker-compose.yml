@@ -2,42 +2,43 @@ version: '3.4'
 
 services:
 
- moodle:
-  image: mlucasdasilva/moodle
-  build: ./
-  ports:
-     - "80:80"
-     - "443:443"
-  environment:
-     - MOODLE_INSTALL_NON_INTERACTIVE=no
-     #- MOODLE_INSTALL_NON_INTERACTIVE=yes
-     - MOODLE_INSTALL_CHMOD_OCTAL_MODE=2775
-     - MOODLE_INSTALL_LANG_CODE=en
-     - MOODLE_INSTALL_WWWROOT_URL=http://192.168.56.56/moodle
-     - MOODLE_INSTALL_DATAROOT_DIR=/var/www/moodledata
-     - MOODLE_INSTALL_DBTYPE_TYPE=pgsql
-     - MOODLE_INSTALL_DBHOST_HOST=pgsql
-     - MOODLE_INSTALL_DBNAME_NAME=moodle
-     - MOODLE_INSTALL_DBUSER_USERNAME=postgres
-     - MOODLE_INSTALL_DBPASS_PASSWORD=password
-     - MOODLE_INSTALL_DBPORT_NUMBER=
-     - MOODLE_INSTALL_DBSOCKET_PATH=
-     - MOODLE_INSTALL_PREFIX_STRING=mdl_ 
-     - MOODLE_INSTALL_FULLNAME_STRING=moodle
-     - MOODLE_INSTALL_SHORTNAME_STRING=moodle
-     - MOODLE_INSTALL_SUMMARY_STRING=moodle
-     - MOODLE_INSTALL_ADMINUSER_USERNAME=admin
-     - MOODLE_INSTALL_ADMINPASS_PASSWORD=Admin@1234
-     - MOODLE_INSTALL_ADMINEMAIL_STRING=admin@mail.com
-     - MOODLE_INSTALL_UPGRADEKEY_STRING= 
-     - MOODLE_INSTALL_PARAMS=
-     #- MOODLE_INSTALL_PARAMS="--skip-database"
-  volumes:
-     - data:/var/www/moodledata
-     - app-html:/var/www/html
-     - logs-apache:/var/log/httpd
+  moodle:
+    image: mlucasdasilva/moodle
+    restart: always
+    build: ./
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - MOODLE_INSTALL_NON_INTERACTIVE=no
+      #- MOODLE_INSTALL_NON_INTERACTIVE=yes
+      - MOODLE_INSTALL_CHMOD_OCTAL_MODE=2775
+      - MOODLE_INSTALL_LANG_CODE=en
+      - MOODLE_INSTALL_WWWROOT_URL=http://192.168.56.56/moodle
+      - MOODLE_INSTALL_DATAROOT_DIR=/var/www/moodledata
+      - MOODLE_INSTALL_DBTYPE_TYPE=pgsql
+      - MOODLE_INSTALL_DBHOST_HOST=pgsql
+      - MOODLE_INSTALL_DBNAME_NAME=moodle
+      - MOODLE_INSTALL_DBUSER_USERNAME=postgres
+      - MOODLE_INSTALL_DBPASS_PASSWORD=password
+      - MOODLE_INSTALL_DBPORT_NUMBER=
+      - MOODLE_INSTALL_DBSOCKET_PATH=
+      - MOODLE_INSTALL_PREFIX_STRING=mdl_ 
+      - MOODLE_INSTALL_FULLNAME_STRING=moodle
+      - MOODLE_INSTALL_SHORTNAME_STRING=moodle
+      - MOODLE_INSTALL_SUMMARY_STRING=moodle
+      - MOODLE_INSTALL_ADMINUSER_USERNAME=admin
+      - MOODLE_INSTALL_ADMINPASS_PASSWORD=Admin@1234
+      - MOODLE_INSTALL_ADMINEMAIL_STRING=admin@mail.com
+      - MOODLE_INSTALL_UPGRADEKEY_STRING= 
+      - MOODLE_INSTALL_PARAMS=
+      #- MOODLE_INSTALL_PARAMS="--skip-database"
+    volumes:
+      - data:/var/www/moodledata
+      - app-html:/var/www/html
+      - logs-apache:/var/log/httpd
 
- pgsql:
+  pgsql:
     image: postgres
     restart: always
     environment:
@@ -50,7 +51,7 @@ services:
     ports:
        - 5432:5432
 
- pgadmin4:
+  pgadmin4:
     image: dpage/pgadmin4
     restart: always
     environment:
@@ -60,8 +61,9 @@ services:
     ports:
       - 10080:80
 
- mysql:
+  mysql:
     image: mysql:5.7
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: Admin@1234
       MYSQL_DATABASE: moodle
@@ -76,18 +78,22 @@ services:
     volumes:
       - data-mysql:/var/lib/mysql
 
- adminer:
+  adminer:
     image: adminer
     restart: always
     ports:
       - 8081:8080
 
+
 volumes:
+
   data:
+
   app-html:
+
   logs-apache:
+
   postgdb:
+
   data-mysql:
-
-
 
