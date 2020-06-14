@@ -40,7 +40,7 @@ RUN chmod -v +x /entrypoint.sh
 
 RUN mkdir /var/www/moodledata && chown apache:apache /var/www/moodledata
 
-VOLUME [ "/var/www/moodledata" ; "/var/www/html" ]
+VOLUME "/var/www/moodledata" "/var/www/html"
 
 EXPOSE 80
 
